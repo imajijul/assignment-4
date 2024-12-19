@@ -1,8 +1,7 @@
 import {tokenDecoded} from "../Utility/TokenUtil.js";
 
 const authMiddleware = async (req, res, next) => {
-    let token = req.headers.token // header a vul token dile decode hoy na + how to set token into headers
-
+    let token = req.headers.token
     if (!token) {
         token = req.cookies.token
     }

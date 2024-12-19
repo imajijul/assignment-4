@@ -12,16 +12,16 @@ router.post("/Registration", UserRegistration)
 router.post("/Login", Login)
 
 // Read Single Profile
-router.get("/ReadSignleProfile/:id", authMiddleware, ReadSignleProfile)
+router.get("/ReadSignleProfile", authMiddleware, ReadSignleProfile)
 
 // Read All User Profile
 router.get("/ReadAllProfile", authMiddleware, ReadAllProfile)
 
 // Signle User Profile Update
-router.post("/UpdateSingleUser/:id", authMiddleware, UpdateSingleUser)
+router.post("/UpdateSingleUser", authMiddleware, UpdateSingleUser)
 
 // Delete Single User
-router.post("/DeleteSingleUser/:id", authMiddleware, DeleteSingleUser)
+router.post("/DeleteSingleUser", authMiddleware, DeleteSingleUser)
 
 
 export default router

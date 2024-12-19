@@ -47,11 +47,8 @@ export const LoginService = async (req)=>{
 
 export const ReadSignleProfileService = async (req)=>{
     try {
-        const id = new ObjectID(req.params.id)
-        const matchStage = {$match: {_id: id}}
-
-        const data = await userModel.aggregate([matchStage])
-
+        const id = new ObjectID(req.headers.id)
+        const data = await userModel.findOne({_id: id})
         return {"status" : "success", "data" : data}
     } catch (err) {
         return {"status" : "fail", "data" : err.toString()}
@@ -70,15 +67,14 @@ export const ReadAllProfileService = async (req)=>{
 
 export const UpdateSingleUserService = async (req)=>{
     try{
-        const id = new ObjectID(req.params.id)
-        const matchStage = {$match: {_id: id}}
+        const id = new ObjectID(req.headers.id)
+        const data = await userModel.findOne({_id: id})
 
-        const data = await userModel.aggregate([matchStage])
         if(data){
-            const newData = await userModel.updateOne(req.body)
+            const newData = await userModel.updateOne({_id: id}, req.body)
             return {"status" : "success", "message" : "user updated successfully."};
         } else {
-             return {"status": "fail", "message": "unsuccessfull"}
+             return {"status": "fail", "message": "user not found to update"}
         }
 
     } catch (err) {
@@ -88,7 +84,7 @@ export const UpdateSingleUserService = async (req)=>{
 }
 
 export const DeleteSingleUserService = async (req)=>{
-    const id = new ObjectID(req.params.id)
+    const id = new ObjectID(req.headers.id)
 
     const total = await userModel.find({_id: id}).countDocuments("total")
 
@@ -96,7 +92,7 @@ export const DeleteSingleUserService = async (req)=>{
         const data = await userModel.deleteOne({_id: id})
         return {status: "success", message: "user deleted successfully", data: data}
     } else {
-        return {status: "fail", data: "invalid user id"}
+        return {status: "fail", data: "user not exist"}
     }
 
 }
